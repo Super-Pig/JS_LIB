@@ -130,6 +130,14 @@ class MyPromise {
         return promise2
     }
 
+    catch = failCallback => this.then(undefined, reason => MyPromise.resolve(failCallback(reason)))
+
+    finally = callback => this.then(() => {
+        return MyPromise.resolve(callback()).then(() => this.value)
+    }, reason => {
+        return MyPromise.resolve(callback()).then(() => { throw reason })
+    })
+
     static all = (array) => {
         const result = []
         let successCount = 0
@@ -157,13 +165,11 @@ class MyPromise {
     }
 
     static resolve = value => {
-        return new MyPromise(resolve => {
-            if (value instanceof MyPromise) {
+        if (value instanceof MyPromise) {
+            return value
+        }
 
-            } else {
-                return resolve(value)
-            }
-        })
+        return new MyPromise(resolve => resolve(value))
     }
 }
 
@@ -185,9 +191,14 @@ function resolvePromise(promise2, x, resolve, reject) {
     }
 }
 
+const p1 = new MyPromise((resolve, reject) => {
+    reject(1)
+})
 
-// const p1 = new Promise((resolve, reject) => setTimeout(() => reject(1), 1000))
+p1.catch(err => {
+    console.log('err:', err)
 
-// const p = Promise.resolve(p1)
-
-// p.then(console.log, console.log)
+    return new MyPromise((resolve, reject) => {
+        reject(2)
+    })
+}).then(console.log, err => console.log('err:', err))
