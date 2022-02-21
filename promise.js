@@ -190,15 +190,3 @@ function resolvePromise(promise2, x, resolve, reject) {
         resolve(x)
     }
 }
-
-const p1 = new MyPromise((resolve, reject) => {
-    reject(1)
-})
-
-p1.catch(err => {
-    console.log('err:', err)
-
-    return new MyPromise((resolve, reject) => {
-        reject(2)
-    })
-}).then(console.log, err => console.log('err:', err))
