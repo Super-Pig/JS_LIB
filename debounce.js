@@ -1,5 +1,5 @@
 /**
- * 
+ * 防抖
  * @param {*} fn 需要执行的函数
  * @param {*} wait 多久开始执行
  * @param {*} immediate true： 执行第一次； false：执行最后一次
@@ -23,7 +23,7 @@ const debounce = (fn, wait, immediate) => {
         immediate = false
     }
 
-    let timer
+    let timer = null
 
     return function proxy(...args) {
         let self = this
@@ -33,6 +33,7 @@ const debounce = (fn, wait, immediate) => {
 
         timer = setTimeout(() => {
             clearTimeout(timer)
+            timer = null
 
             !immediate && fn.call(self, ...args)
         }, wait)
