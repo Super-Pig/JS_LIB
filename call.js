@@ -1,12 +1,12 @@
 /**
- * 模拟实现 call 函数
+ * 模拟实现 Function.prototype.call
  * @param {*} ctx 
  * @param  {...any} args 
  * @returns 
  */
 Function.prototype._call = function (ctx, ...args) {
-    let fn = Symbol()
-    let context = ctx ? ctx : window
+    const fn = Symbol()
+    const context = ctx || window
     context[fn] = this
 
     const res = context[fn](...args)
