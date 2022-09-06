@@ -1,8 +1,8 @@
-/*
- * Copyright © 2020-2022 Ocean Galaxy Inc. All Rights Reserved.
- * @Description: 
- * @LastEditors: garry彭
- * @LastEditTime: 2022-09-04 20:55:45
+/**
+ * 模拟实现 Function.prototype.apply
+ * @param {*} ctx 
+ * @param {*} args 
+ * @returns 
  */
 Function.prototype._apply = function (ctx, args = []) {
     if (!Array.isArray(args)) {
